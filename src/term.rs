@@ -417,6 +417,28 @@ impl Term {
             }
         }
     }
+    
+    /// Returns the number of `Term`s contained within
+    /// the given `Term`.
+    ///
+    /// # Example
+    /// ```
+    /// use lambda_calculus::*;
+    ///
+    /// assert_eq!(abs(Var(1)).size(), 2);
+    /// ```
+
+    pub fn size(&self) -> usize {
+        match self {
+            Var(_) => 1,
+            Abs(t) => 1 + t.size(),
+            App(boxed) => {
+                let d0 = boxed.0.size();
+                let d1 = boxed.1.size();
+                d0 + d1 + 1
+            }
+        }
+    }
 
     /// Returns `true` if `self` is structurally isomorphic to `other`.
     ///
